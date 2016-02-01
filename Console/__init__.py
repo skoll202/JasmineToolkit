@@ -96,7 +96,6 @@ try:
         assignments[number] = int(credit.rstrip())
     for c in courses:
         c.assignments = assignments
-
         
 except Exception:
     print("Error: No assignment file found.  No assignments will be loaded.")
