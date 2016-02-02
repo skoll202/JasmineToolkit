@@ -56,3 +56,9 @@ class Student(object):
             if str(a.credit)==str(credit):
                 creditAssignments.append(a)
         return creditAssignments
+    def getAssignmentsDictForCredit(self,credit):
+        creditAssignments = {}
+        for a in self.assignments:
+            if str(a.credit)==str(credit):
+                creditAssignments[a.number]=a
+        return creditAssignments

@@ -17,9 +17,16 @@ def run(data, param):
                 scores = c.getScoresForCredit(credit)
                 #print(scores)
                 creditScore = scores[s.lastName+","+s.firstName]
-                assignments = s.getAssignmentsForCredit(credit)
-                for a in assignments:
-                    file.write("%s:%s - %s\r\n" % (a.number,a.score,a.dateSubmitted))
+                allAssignments = data['currentCourse'].getAssignmentsForCredit(credit)
+                assignments = s.getAssignmentsDictForCredit(credit)
+                for a in sorted(allAssignments):
+                    if a in assignments.keys():
+                        score = assignments[a].score
+                        dateSubmitted = assignments[a].dateSubmitted
+                    else:
+                        score = 0
+                        dateSubmitted = ""
+                    file.write("%s:%s - %s\r\n" % (a,score,dateSubmitted))
                 file.write("Credit %d Score:%d\r\n\r\n" % (credit,math.ceil(creditScore*100)))
             file.close()
     pickle.dump(courses,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\courses.p","wb"))
