@@ -31,11 +31,18 @@ def sortFiles(students,course):
             if PDFManager.isControlledPDF(text=fileText):
                 
                 count+=1
-                filename = "%s-%s,%s.pdf" % (PDFManager.getAssignmentNumber(text=fileText),s.lastName,s.firstName)
+                assignmentNumber = PDFManager.getAssignmentNumber(text=fileText)                
+                filename = "%s-%s,%s.pdf" % (assignmentNumber,s.lastName,s.firstName)
                 try:
-                    dst = s.gradedPath+"\\%d\\%s" % (course.assignments[PDFManager.getAssignmentNumber(text=fileText)],filename)
+                    creditNumber = course.assignments[assignmentNumber]
                 except:
-                    dst = s.gradedPath+"\\%s\\%s" % (course.assignments[PDFManager.getAssignmentNumber(text=fileText)],filename)
+                    creditNumber = -1
+                if "Notes" in assignmentNumber:
+                    print("Notes found for %s %s for Credit %s" % (s.firstName, s.lastName, creditNumber))
+                try:
+                    dst = s.gradedPath+"\\%d\\%s" % (creditNumber,filename)
+                except:
+                    dst = s.gradedPath+"\\%s\\%s" % (creditNumber,filename)
                 #Check if graded folder exists and create if necessary
                 path = os.path.split(dst)[0]
                 if not os.path.exists(path):

@@ -40,6 +40,7 @@ def getStr(path):
 def getAssignmentNumber(path=None, text=None):
     if text==None and path!=None:
         text = getStr(path)
+    number = None
     text="".join([x if ord(x) < 128 else '?' for x in text])
     if isExam(text=text):        
         index = text.find("Exam??Report:")
@@ -67,11 +68,39 @@ def getAssignmentNumber(path=None, text=None):
         while text[index+i]!=c:
             number+=text[index+i]
             i+=1
-        
+    elif isNotes(text=text):
+        index = text.find("Credit")
+        if index>-1:
+            running = True
+            i=6
+            credit = ""
+            while running:
+                character = text[index+i]
+                if character.isdigit():
+                    credit+=character
+                    i+=1
+                else:
+                    if credit=="":
+                        i=i+1
+                    else:
+                        running = False               
+                    
+            number = "Credit%sNotes"%credit
     return number
     
 def merge(files, outFileName):
     merger = PdfFileMerger()
+    notes = None
+    
+    for f in files:
+        filename = os.path.split(f)[1]
+        if "Credit" in filename:
+            notes = f
+    if notes != None:
+        files.remove(notes)
+        file = open(notes,'rb')
+        pdfFile = PdfFileReader(file,strict=False)
+        merger.append(pdfFile)
     for f in sorted(files):
         file = open(f,'rb')
         pdfFile = PdfFileReader(file,strict=False)

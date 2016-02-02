@@ -47,7 +47,10 @@ def run(data, param):
                     assignment = Assignment.Assignment()
                     assignment.score = score
                     assignment.number = num
-                    assignment.credit = currentCourse.assignments[num]
+                    try:
+                        assignment.credit = currentCourse.assignments[num]
+                    except:
+                        assignment.credit = -1
                     s.assignments.append(assignment)
             returnText+="Added %d grades for %s %s \r\n" % (count,s.firstName,s.lastName)
         currentCourse.students = students
