@@ -23,9 +23,9 @@ def run(data, param):
             submitPath = raw_input("Submit Path:")
             student = Student.Student(fname,lname,currentCourse)
             if submitPath=="":
-                submitPath="C:\\Users\\ncarlson\\Google Drive\\IT3\\"+currentCourse.name+"\\"+lname+","+fname+"\\"
+                submitPath="C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\"+currentCourse.name+"\\"+lname+","+fname+"\\"
             student.submitPath = submitPath
-            student.gradedPath = "C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\"+currentCourse.name+"\\"+lname+","+fname+"\\"
+            student.gradedPath = "C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\Graded\\"+currentCourse.name+"\\"+lname+","+fname+"\\"
             if not os.path.exists(submitPath):
                 os.makedirs(submitPath)
             currentCourse.students.append(student)

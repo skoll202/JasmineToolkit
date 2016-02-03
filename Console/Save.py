@@ -29,9 +29,9 @@ def run(data, param):
                     file.write("%s:%s - %s\r\n" % (a,score,dateSubmitted))
                 file.write("Credit %d Score:%d\r\n\r\n" % (credit,math.ceil(creditScore*100)))
             file.close()
-    pickle.dump(courses,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\courses.p","wb"))
+    pickle.dump(courses,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\courses.p","wb"))
     settings = {}
     settings['currentCourse'] = currentCourse
-    pickle.dump(settings,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\settings.p","wb"))
+    pickle.dump(settings,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\settings.p","wb"))
     returnText = "Saved Successfully"
     return returnText

@@ -18,7 +18,7 @@ import Grade
 command = {}
 courses = []
 currentCourse=""
-dataPath = "C:\\Users\\ncarlson\\Google Drive\\IT3\\"
+dataPath = "C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\"
 
 returnText = ""
 
@@ -75,8 +75,8 @@ def processInput(param):
     
 
 try:
-    courses = pickle.load(open("C:\\Users\\ncarlson\\Google Drive\\IT3\\courses.p"))
-    settings = pickle.load(open("C:\\Users\\ncarlson\\Google Drive\\IT3\\settings.p"))
+    courses = pickle.load(open("C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\courses.p"))
+    settings = pickle.load(open("C:\\Users\\ncarlson\\Google Drive\\IT3\\TESTING\\settings.p"))
     if 'currentCourse' in settings.keys():
         for c in courses:
             if settings['currentCourse']==c.name:
