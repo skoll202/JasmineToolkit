@@ -132,6 +132,7 @@ def getScore(path=None, text=None):
                 score+=text[index+extra0]
         elif (isLab(text=text)):
             num=20
+            extra0=num+2
             score = text[index+num]+text[index+num+1]
             while "(" in score:
                 num=num+1
