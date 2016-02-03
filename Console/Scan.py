@@ -52,6 +52,8 @@ def run(data, param):
                     except:
                         assignment.credit = -1
                     s.assignments.append(assignment)
+                    if assignment.dateSubmitted<currentCourse.assignments[num].dueDate:
+                        s.assignmentSubmittedOnTime()
             returnText+="Added %d grades for %s %s \r\n" % (count,s.firstName,s.lastName)
         currentCourse.students = students
         data['currentCourse'] = currentCourse

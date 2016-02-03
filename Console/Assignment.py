@@ -4,6 +4,7 @@ Created on Jan 6, 2016
 @author: ncarlson
 '''
 import time
+import datetime
 
 class Assignment(object):
     '''
@@ -15,7 +16,7 @@ class Assignment(object):
     score = 0
 
 
-    def __init__(self,number="",credit="",score=""):
+    def __init__(self,number="",credit="",score="",dueDate = datetime.date(2199,1,1)):
         '''
         Constructor
         '''
@@ -23,4 +24,10 @@ class Assignment(object):
         self.credit = credit
         self.score = score
         self.dateSubmitted = time.strftime("%c")
-        
+        if isinstance(dueDate,datetime.datetime):
+            self.dueDate = dueDate
+        else:
+            split = dueDate.split('/')
+            self.dueDate = datetime.date(int(split[2]),int(split[0]),int(split[1]))
+            
+                

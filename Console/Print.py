@@ -5,6 +5,7 @@ Created on Jan 11, 2016
 '''
 
 import math
+import time
 
 def run(data, param):
     layer2 = {}
@@ -13,7 +14,7 @@ def run(data, param):
         returnText = ""
         currentCourse = data['currentCourse']        
         for s in currentCourse.students:
-            returnText+=s.lastName+","+s.firstName+"\r\n"
+            returnText+=s.lastName+","+s.firstName+" - %d xp\r\n" % s.xp
         return returnText
     layer2['students'] = printStudents
     
@@ -74,10 +75,10 @@ def run(data, param):
             currentCourse = data['currentCourse']
             returnText=''
             for c in range(1,16):
-                assignments = currentCourse.getAssignmentsForCredit(c)
+                assignments = currentCourse.getAssignmentObjectsForCredit(c)
                 returnText+="Credit %d\r\n" % c
                 for a in assignments:
-                    returnText+="%s\r\n" % a
+                    returnText+="%s - Due %s\r\n" % (a.number,a.dueDate.isoformat())
                 returnText+="\r\n"
             return returnText
         layer2['assignments'] = printCourseAssignments

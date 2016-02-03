@@ -29,11 +29,12 @@ def run(data, param):
                 grade = raw_input("Grade for %s,%s(%d):" % (s.lastName,s.firstName,int(currentGrade)))
                 if grade=='':
                     grade=currentGrade
-                if notesAssignment==None:
-                    notesAssignment = Assignment.Assignment("Credit%dNotes"%credit,credit,grade)
-                    s.assignments.append(notesAssignment)
                 else:
-                    notesAssignment.score = grade
+                    if notesAssignment==None:
+                        notesAssignment = Assignment.Assignment("Credit%dNotes"%credit,credit,grade)
+                        s.assignments.append(notesAssignment)
+                    else:
+                        notesAssignment.score = grade
         return "Notes grades submitted."     
     layer2['notes'] = gradeNotes
     

@@ -3,6 +3,7 @@ import pickle
 
 import Course
 import Student
+import Assignment
 
 import Print
 import Remove
@@ -24,9 +25,12 @@ returnText = ""
 
 def getCurrentCourse():
     global currentCourse
-    for c in courses:
-        if c.name==currentCourse:
-            return c
+    if currentCourse == "":
+        return "FAIL"
+    else:
+        for c in courses:
+            if c.name==currentCourse:
+                return c
         
 def setCurrentCourse(course):
     global currentCourse
@@ -62,14 +66,25 @@ def processInput(param):
     data['courses'] = courses
     data['dataPath'] = dataPath
     if words[0] in command.keys():
-        
-        if len(words)<2:
-            words.append("")
-        print(command[words[0]](data,words[1]))
-        try:
-            setCurrentCourse(data['currentCourse'].name)
-        except:
-            pass
+        if words[0]!="set" and words[0]!="add" and words[0]!="quit":
+            if data['currentCourse']!="FAIL":
+                if len(words)<2:
+                    words.append("")
+                print(command[words[0]](data,words[1]))
+                try:
+                    setCurrentCourse(data['currentCourse'].name)
+                except:
+                    pass
+            else:
+                print("You must set a current course before proceeding.")
+        else:
+            if len(words)<2:
+                words.append("")
+            print(command[words[0]](data,words[1]))
+            try:
+                setCurrentCourse(data['currentCourse'].name)
+            except:
+                pass
     else:
         print "Command %s not found." % words[0]
     
@@ -87,15 +102,18 @@ except Exception:
     courses = []
 
 assignments = {}
-
+assignmentsFile = open("assignmentsTESTING.csv")
+lines = assignmentsFile.readlines()
+for line in lines:
+    (number,credit,dueDate) = line.split(",")
+    dueDate = dueDate.strip("\n")
+    newAssignment = Assignment.Assignment(number,credit,"0",dueDate)
+    assignments[number] = newAssignment
+for c in courses:
+    c.assignments = assignments
 try:
-    assignmentsFile = open("assignments.csv")
-    lines = assignmentsFile.readlines()
-    for line in lines:
-        (number,credit) = line.split(",")
-        assignments[number] = int(credit.rstrip())
-    for c in courses:
-        c.assignments = assignments
+    
+    pass
         
 except Exception:
     print("Error: No assignment file found.  No assignments will be loaded.")

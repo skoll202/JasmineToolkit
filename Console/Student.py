@@ -25,6 +25,8 @@ class Student(object):
         self.lastName = last
         self.course = course
         self.assignments = assignments
+        self.xp=0
+        self.hp=100
         
     def getScoreForCredit(self,credit):
         pass
@@ -62,3 +64,9 @@ class Student(object):
             if str(a.credit)==str(credit):
                 creditAssignments[a.number]=a
         return creditAssignments
+    
+    def assignmentSubmittedOnTime(self):
+        self.xp+=50
+    
+    def assignmentSubmittedLate(self):
+        pass
