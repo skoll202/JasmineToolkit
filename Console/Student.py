@@ -70,3 +70,6 @@ class Student(object):
     
     def assignmentSubmittedLate(self):
         pass
+    
+    def assignmentNotSubmitted(self):
+        self.hp-=10

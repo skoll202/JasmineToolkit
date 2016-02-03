@@ -10,10 +10,25 @@ from Console import PDFManager
 from _ast import Num
 import os
 import sys
+import datetime
 
 def run(data, param):
     layer2 = {}
     returnText = "" 
+    
+    def checkForDueAssignments(data,param):
+        currentCourse = data['currentCourse']
+        assignments = currentCourse.assignments
+        for a in currentCourse.assignments.keys():
+            if assignments[a].dueDate<datetime.date.today():
+                for s in currentCourse.students:
+                    isSubmitted = False
+                    for sa in s.assignments:
+                        if sa.number==a:
+                            isSubmitted = True
+                            break
+                    if not isSubmitted:
+                        s.assignmentNotSubmitted()
     
     def scanFiles(data,param):
         currentCourse = data['currentCourse']
@@ -68,6 +83,7 @@ def run(data, param):
                         files.remove(f)
                 if (len(files)>0):
                     PDFManager.merge(files, destPath+"packet%d.pdf"%i)
+        checkForDueAssignments(data, param)
         return returnText
                     
     
