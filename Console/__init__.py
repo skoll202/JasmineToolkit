@@ -119,9 +119,9 @@ except Exception:
     print("Error: No assignment file found.  No assignments will be loaded.")
 
 ###############Clear Assignments for students###################
-#for c in courses:
-#    for s in c.students:
-#        s.assignments = []
+for c in courses:
+    for s in c.students:
+        s.assignments = []
 ################################################################
 
 print "Welcome."

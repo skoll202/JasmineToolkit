@@ -23,8 +23,8 @@ class Assignment(object):
         self.number=number
         self.credit = credit
         self.score = score
-        self.dateSubmitted = time.strftime("%c")
-        if isinstance(dueDate,datetime.datetime):
+        self.dateSubmitted = datetime.date.today()
+        if isinstance(dueDate,datetime.date):
             self.dueDate = dueDate
         else:
             split = dueDate.split('/')

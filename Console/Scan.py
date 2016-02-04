@@ -63,12 +63,14 @@ def run(data, param):
                     assignment.score = score
                     assignment.number = num
                     try:
-                        assignment.credit = currentCourse.assignments[num]
+                        assignment.credit = currentCourse.assignments[num].credit
                     except:
                         assignment.credit = -1
                     s.assignments.append(assignment)
                     if assignment.dateSubmitted<currentCourse.assignments[num].dueDate:
+                        print("%s was submitted on time" % num)
                         s.assignmentSubmittedOnTime()
+                        
             returnText+="Added %d grades for %s %s \r\n" % (count,s.firstName,s.lastName)
         currentCourse.students = students
         data['currentCourse'] = currentCourse

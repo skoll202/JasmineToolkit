@@ -34,7 +34,7 @@ def sortFiles(students,course):
                 assignmentNumber = PDFManager.getAssignmentNumber(text=fileText)                
                 filename = "%s-%s,%s.pdf" % (assignmentNumber,s.lastName,s.firstName)
                 try:
-                    creditNumber = course.assignments[assignmentNumber]
+                    creditNumber = course.assignments[assignmentNumber].credit
                 except:
                     creditNumber = -1
                 if "Notes" in assignmentNumber:

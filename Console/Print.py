@@ -18,6 +18,30 @@ def run(data, param):
         return returnText
     layer2['students'] = printStudents
     
+    def printStudent(data,param):
+        returnText=""
+        layer3 = {}
+        def printStudentAssignments(data,param):
+            returnText = ""
+            currentCourse = data['currentCourse']
+            for s in currentCourse.students:
+                
+                returnText+="%s,%s\r\n" % (s.lastName,s.firstName)
+                for i in range(1,16):
+                    assignments = s.getAssignmentsForCredit(i)
+                    for a in assignments:
+                        returnText+="%s - %s\r\n" % (a.number,a.score)
+            return returnText
+        layer3['assignments'] = printStudentAssignments
+        
+        words = param.split(' ',1)
+        if words[0] in layer3.keys():
+            if len(words)<2:
+                words.append("")
+            returnText = layer3[words[0]](data,words[1])  
+        return returnText      
+    layer2['student'] = printStudent
+    
     def printCourses(data,param):
         courses = data['courses']
         returnText = ""
