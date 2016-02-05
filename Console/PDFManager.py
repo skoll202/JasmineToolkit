@@ -69,7 +69,7 @@ def getAssignmentNumber(path=None, text=None):
             number+=text[index+i]
             i+=1
     elif isNotes(text=text):
-        index = text.find("Credit")
+        index = text.lower().find("credit")
         if index>-1:
             running = True
             i=6
@@ -138,6 +138,10 @@ def getScore(path=None, text=None):
                 num=num+1
                 score = text[index+num]+text[index+num+1]
                 extra0 = num+2
+            while "%" in score:
+                num=num-1
+                score = text[index+num]+text[index+num+1]
+                extra0 = num+2
             if score=="10" and text[index+extra0]=="0":
                 score+=text[index+extra0]
     else:
@@ -164,8 +168,14 @@ def getScore(path=None, text=None):
                 num=num+1
                 score = text[index+num]+text[index+num+1]
                 extra0 = num+2
+            while "%" in score:
+                num=num-1
+                score = text[index+num]+text[index+num+1]
+                extra0 = num+2
             if score=="10" and text[index+extra0]=="0":
                 score+=text[index+extra0]
+    if score=='(0':
+        score = '0'
     return score
 
 
@@ -202,11 +212,11 @@ def isNotes(path=None,text=None):
     if text==None and path!=None:
         text = getStr(path)
     text="".join([x if ord(x) < 128 else '?' for x in text])
-    index = text.find("Notes")
+    index = text.lower().find("notes")
     if index>-1:
         return True
     else:
-        index = text.find("Notes")
+        index = text.lower().find("notes")
         if index>-1:
             return True
         else:
