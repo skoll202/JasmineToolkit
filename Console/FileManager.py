@@ -15,6 +15,14 @@ def getPDFFiles(path):
         for filename in [f for f in filenames if f.endswith(".pdf")]:
             files.append(os.path.join(dirpath,filename))
     return files
+
+def getTXTFiles(path):
+    files = []
+    for dirpath,dirnames, filenames in os.walk(path):
+        for filename in [f for f in filenames if f.endswith(".txt")]:
+            files.append(os.path.join(dirpath,filename))
+    return files
+
 def getNewFiles(students):
     files = {}
     for s in students:        
@@ -26,6 +34,7 @@ def sortFiles(students,course):
     for s in students:
         count = 0
         files = getPDFFiles(s.submitPath)
+        print("%d files found for %s %s" % (len(files),s.firstName,s.lastName))
         for f in files:
             fileText = PDFManager.getStr(f)
             if PDFManager.isControlledPDF(text=fileText):
@@ -51,8 +60,29 @@ def sortFiles(students,course):
         str+="Moved %d files submitted by %s %s \r\n" % (count,s.firstName, s.lastName)
     return str
             
-        
+            
+def getNotes(path):
+    notesFile = ""
+    files = getPDFFiles(path)
+    for f in files:
+        if "Notes" in f:
+            notesFile = f
+            break
+    return notesFile
+
+def notesExist(path,credit=""):
+    if credit=="":
+        notes = getNotes(path)
+    else:
+        fullPath = "%s%d\\" % (path,int(credit))
+        notes = getNotes(fullPath)
+    if notes=="":
+        return False
+    else:
+        return True
+
+
         
 
 if __name__ == '__main__':
-    pass
+    print(notesExist("C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\%s\\%s\\" % ("IT3 Jan 2016","Robinson,Nathan"), 1))

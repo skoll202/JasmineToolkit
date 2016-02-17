@@ -13,6 +13,7 @@ from PyPDF2 import PdfFileMerger, PdfFileReader
 from cStringIO import StringIO
 from gettext import gettext
 import os
+import pyPdf
 
 def getStr(path):
     rsrcmgr = PDFResourceManager()
@@ -36,6 +37,18 @@ def getStr(path):
     device.close()
     retstr.close()
     return text
+
+def getStrAlt(path):
+    content = ""
+    # Load PDF into pyPDF
+    pdf = pyPdf.PdfFileReader(file(path, "rb"))
+    # Iterate pages
+    for i in range(0, pdf.getNumPages()):
+        # Extract text from page and add to content
+        content += pdf.getPage(i).extractText() + "\n"
+    # Collapse whitespace
+    #content = " ".join(content.replace("\xa0", " ").strip().split())
+    return content
 
 def getAssignmentNumber(path=None, text=None):
     if text==None and path!=None:
@@ -239,31 +252,13 @@ def getStudentName(path,students):
 
 if __name__ == '__main__':
     files = []
-    path = "C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\IT3 Jan 2016\\Curtis,Arriana\\1\\1.2.2-Curtis,Arriana.pdf"  
+    path = "C:\\Users\\ncarlson\\Google Drive\\IT3\\IT3 Jan 2016\\White,Tyris\\Ghost.pdf"  
     files.append(path)
-    text2 = getStr(path)
-    #print(text2)
+    #text2 = getStr(path)
+    text2 = getStrAlt(path)
+    print(text2)
     print isExam(text=text2)
     print isLab(text=text2)
     print getAssignmentNumber(text=text2)
     print getScore(text=text2)
     
-    path2 = "C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\IT3 Jan 2016\\Courts,Baily\\1\\1.2.2-Courts,Baily.pdf"  
-    files.append(path)
-    text2 = getStr(path)
-    #print(text2)
-    print isExam(text=text2)
-    print isLab(text=text2)
-    print getAssignmentNumber(text=text2)
-    print getScore(text=text2)
-    
-    path3 = "C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\IT3 Jan 2016\\Kelly,Dylon\\1\\1.2.2-Kelly,Dylon.pdf"  
-    files.append(path)
-    text2 = getStr(path)
-    #print(text2)
-    print isExam(text=text2)
-    print isLab(text=text2)
-    print getAssignmentNumber(text=text2)
-    print getScore(text=text2)
-    
-    merge(files, "C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\IT3 Jan 2016\\testMerge.pdf"  )

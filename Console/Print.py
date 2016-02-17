@@ -5,10 +5,14 @@ Created on Jan 11, 2016
 '''
 
 import math
+import FileManager
+import os
 
 def run(data, param):
     layer2 = {}
     returnText = "" 
+    
+    
     def printStudents(data,param):
         returnText = ""
         currentCourse = data['currentCourse']        
@@ -24,6 +28,29 @@ def run(data, param):
             returnText+=course.name+"\r\n"
         return returnText
     layer2['courses'] = printCourses
+    
+    def printUngraded(data,param):
+        layer3={}
+        returnText=""
+        def printUngradedNotes(data,param):
+            returnText=""
+            currentCourse = data['currentCourse']
+            for i in range(1,16):
+                for s in currentCourse.students:
+                    if FileManager.notesExist(s.gradedPath, i):
+                        if s.getScoreForNotes(i)==0:
+                            returnText+="Notes for %s %s credit %d need to be graded.\r\n" % (s.firstName,s.lastName, i)
+            return returnText
+        layer3['notes'] = printUngradedNotes
+        
+        
+        words = param.split(' ',1)
+        if words[0] in layer3.keys():
+            if len(words)<2:
+                words.append("")
+            returnText = layer3[words[0]](data,words[1])  
+        return returnText      
+    layer2['ungraded'] = printUngraded
     
     def printCurrent(data,param):
         layer3={}

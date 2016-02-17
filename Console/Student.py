@@ -26,6 +26,8 @@ class Student(object):
         self.course = course
         self.assignments = assignments
         
+    
+        
     def getScoreForCredit(self,credit):
         pass
     
@@ -36,6 +38,17 @@ class Student(object):
                 score = a.score
                 break
         return score
+    
+    def getSubmitDateForAssignment(self,assignmentNumber):
+        date = 0
+        for a in self.assignments:
+            if a.number==assignmentNumber:
+                date = a.dateSubmitted
+                break
+        return date
+    
+    def getScoreForNotes(self,credit):
+        return self.getScoreForAssignment("Credit%dNotes" % int(credit))
     
     def setScoreForAssignment(self,score, assignmentNumber, credit):
         exists = False
