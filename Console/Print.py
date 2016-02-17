@@ -29,6 +29,30 @@ def run(data, param):
         return returnText
     layer2['courses'] = printCourses
     
+    def printSubmitted(data,param):
+        layer3={}
+        returnText=""
+        def printSubmittedPackets(data,param):
+            returnText=""
+            currentCourse = data['currentCourse']
+            for s in currentCourse.students:
+                returnText+="%s %s:\r\n" % (s.firstName,s.lastName)
+                for i in range(1,16):
+                    if s.isPacketSubmitted(i):
+                        returnText+="%d\r\n" % i
+                returnText+="\r\n"
+            return returnText
+        layer3['packets'] = printSubmittedPackets
+        
+        
+        words = param.split(' ',1)
+        if words[0] in layer3.keys():
+            if len(words)<2:
+                words.append("")
+            returnText = layer3[words[0]](data,words[1])  
+        return returnText      
+    layer2['submitted'] = printSubmitted
+    
     def printUngraded(data,param):
         layer3={}
         returnText=""

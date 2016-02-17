@@ -14,6 +14,7 @@ import Sort
 import Scan
 import Clear
 import Grade
+import Submit
 
 import FileManager
 import Assignment
@@ -57,6 +58,8 @@ command['scan'] = Scan.run
 command['clear'] = Clear.run
 
 command['grade'] = Grade.run
+
+command['submit'] = Submit.run
 
 def processInput(param):
     words = param.split(' ',1)
