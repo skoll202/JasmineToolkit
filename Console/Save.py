@@ -10,8 +10,10 @@ import os
 def run(data, param):
     currentCourse = data['currentCourse'].name
     courses = data['courses']
-    
+    dataPath = data['dataPath']
     for c in courses:
+        coursesTXT = open(dataPath+"courses.txt","w")
+        
         for s in c.students:
             file = open(s.submitPath+"grades.txt","w")
             for credit in range(1,15):

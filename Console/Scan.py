@@ -44,7 +44,7 @@ def run(data, param):
                     count+=1
                     text = PDFManager.getStr(f)
                     score = PDFManager.getScore(text = text)
-                    
+                    dateSubmitted = None
                     #Account for files that can't be read but grade was input manually
                     if score==0:
                         txtFile = os.path.splitext(f)[0]+".txt"
@@ -58,7 +58,8 @@ def run(data, param):
                     assignment = Assignment.Assignment()
                     assignment.score = score
                     assignment.number = num
-                    assignment.dateSubmitted = dateSubmitted
+                    if dateSubmitted!=None:
+                        assignment.dateSubmitted = dateSubmitted
                     try:
                         assignment.credit = currentCourse.assignments[num]
                     except:

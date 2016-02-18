@@ -17,6 +17,8 @@ def run(data, param):
         for s in currentCourse.students:
             if s.isPacketSubmitted(credit):
                 isSubmitted = "Yes"
+            else:
+                isSubmitted = "No"
             input = raw_input("Submitted packet for %s %s credit %s?(%s):" % (s.firstName,s.lastName,credit,isSubmitted))   
             if input.lower()==isSubmitted.lower() or input.lower()==isSubmitted[0].lower():
                 pass

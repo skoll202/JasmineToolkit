@@ -102,23 +102,26 @@ def getAssignmentNumber(path=None, text=None):
     return number
     
 def merge(files, outFileName):
-    merger = PdfFileMerger()
-    notes = None
-    
-    for f in files:
-        filename = os.path.split(f)[1]
-        if "Credit" in filename:
-            notes = f
-    if notes != None:
-        files.remove(notes)
-        file = open(notes,'rb')
-        pdfFile = PdfFileReader(file,strict=False)
-        merger.append(pdfFile)
-    for f in sorted(files):
-        file = open(f,'rb')
-        pdfFile = PdfFileReader(file,strict=False)
-        merger.append(pdfFile)    
-    merger.write(outFileName)
+    try:
+        merger = PdfFileMerger()
+        notes = None
+        
+        for f in files:
+            filename = os.path.split(f)[1]
+            if "Credit" in filename:
+                notes = f
+        if notes != None:
+            files.remove(notes)
+            file = open(notes,'rb')
+            pdfFile = PdfFileReader(file,strict=False)
+            merger.append(pdfFile)
+        for f in sorted(files):
+            file = open(f,'rb')
+            pdfFile = PdfFileReader(file,strict=False)
+            merger.append(pdfFile)    
+        merger.write(outFileName)
+    except:
+        print("Error writing pdf file %s" % outFileName)
 
 def getScore(path=None, text=None):
     if text==None and path!=None:
