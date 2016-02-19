@@ -65,6 +65,11 @@ def run(data, param):
                     except:
                         assignment.credit = -1
                     s.assignments.append(assignment)
+                    
+                    #read txt file and check if assignment has a score
+                    #update txt file
+                    #write text file
+                    
             returnText+="Added %d grades for %s %s \r\n" % (count,s.firstName,s.lastName)
         currentCourse.students = students
         data['currentCourse'] = currentCourse

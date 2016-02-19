@@ -11,6 +11,7 @@ def run(data, param):
     currentCourse = data['currentCourse'].name
     courses = data['courses']
     dataPath = data['dataPath']
+    settings = data['settings']
     for c in courses:
         coursesTXT = open(dataPath+"courses.txt","w")
         
@@ -55,8 +56,38 @@ def run(data, param):
             
             
     pickle.dump(courses,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\courses.p","wb"))
-    settings = {}
-    settings['currentCourse'] = currentCourse
+    #settings = {}
+    #settings['currentCourse'] = currentCourse
     pickle.dump(settings,open("C:\\Users\\ncarlson\\Google Drive\\IT3\\settings.p","wb"))
+    
+    #Save settings txt file
+    settingsFile = open(dataPath+"settings.txt","w")    
+    for s in settings.keys():
+        if s=="courses":
+            names = []
+            for c in courses:
+                names.append(c.name)
+            settingsFile.write("courses="+",".join(names)+"\r\n")
+        else:
+            settingsFile.write(s+"="+settings[s]+"\r\n")
+    settingsFile.close()
+    
+    for c in courses:
+        courseFile = open(dataPath+"%s.txt" % c.name, "w")
+        courseFile.write("name=%s\r\n" % c.name)
+        courseFile.write("notesWeight=%f\r\n" % float(c.notesWeight))
+        courseFile.write("projectWeight=%f\r\n" % float(c.projectWeight))
+        for s in c.students:
+            courseFile.write("student=%s,%s\r\n" % (s.lastName,s.firstName))
+        courseFile.close()
+        for s in c.students:
+            studentFile = open(dataPath+"%s\\%s,%s.txt" % (c.name,s.lastName,s.firstName),"w")
+            studentFile.write("firstName=%s\r\n" % s.firstName)
+            studentFile.write("lastName=%s\r\n" % s.lastName)
+            studentFile.write("course=%s\r\n" % c.name)
+            for a in s.assignments:
+                studentFile.write("assignment=%s,%s,%s,%s\r\n" % (a.number,a.credit,a.score,a.dateSubmitted))
+            studentFile.close()
+    
     returnText = "Saved Successfully"
     return returnText

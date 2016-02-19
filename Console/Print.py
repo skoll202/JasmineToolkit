@@ -118,6 +118,24 @@ def run(data, param):
         return returnText
     layer2['grades'] = printGrades
     
+    def printSettings(data,param):
+        settings = data['settings']
+        returnText = str(settings)
+        
+        return returnText
+    layer2['settings'] = printSettings
+    
+    def printAllGrades(data,param):
+        currentCourse = data['currentCourse']
+        returnText=""
+        for s in currentCourse.students:
+            returnText+="%s,%s:\r\n" % (s.lastName,s.firstName)
+            for a in s.assignments:
+                returnText+="%s-%s Credit %s\r\n" % (a.number,a.score,a.credit)
+            returnText+="\r\n"
+        return returnText
+    layer2['all'] = printAllGrades
+    
     def printCourse(data,param):
         layer2 = {}
         
