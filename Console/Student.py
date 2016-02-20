@@ -25,6 +25,9 @@ class Student(object):
         self.lastName = last
         self.course = course
         self.assignments = assignments
+        self.xp=0
+        self.hp=100
+        self.mp=50
         
     
         

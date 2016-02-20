@@ -81,38 +81,38 @@ def processInput(param):
     else:
         print "Command %s not found." % words[0]
    
-
-if os.path.exists(dataPath+"settings.txt"):
-    #read settings from settings txt file
-    settingsFile = open(dataPath+"settings.txt")
-    data = settingsFile.readlines()
-    
-    #Settings Template
-    settingsData = {}
-    settingsData['currentCourse']=""
-    settingsData['courses']=""
-    
-    for d in data:
-        if "=" in d:
-            #is a setting
-            (k,value) = d.split("=")
-            settings[k]=value.rstrip()
-        else:
-            #not a setting
-            pass
-    settingsFile.close()
-    print settings
-    for k in settingsData.keys():
-        if k not in settings.keys():
-            settings[k]=""
-#create settings txt file if it doesnt exist with standard settings 
-else:
-    settingsFile = open(dataPath+"settings.txt","w")    
-    print settingsData
-    for s in settingsData.keys():
-        print s
-        settingsFile.write(s+"="+settingsData[s]+"\r\n")
-    settingsFile.close()
+def loadSettings():
+    if os.path.exists(dataPath+"settings.txt"):
+        #read settings from settings txt file
+        settingsFile = open(dataPath+"settings.txt")
+        data = settingsFile.readlines()
+        
+        #Settings Template
+        settingsData = {}
+        settingsData['currentCourse']=""
+        settingsData['courses']=""
+        
+        for d in data:
+            if "=" in d:
+                #is a setting
+                (k,value) = d.split("=")
+                settings[k]=value.rstrip()
+            else:
+                #not a setting
+                pass
+        settingsFile.close()
+        print settings
+        for k in settingsData.keys():
+            if k not in settings.keys():
+                settings[k]=""
+    #create settings txt file if it doesnt exist with standard settings 
+    else:
+        settingsFile = open(dataPath+"settings.txt","w")    
+        print settingsData
+        for s in settingsData.keys():
+            print s
+            settingsFile.write(s+"="+settingsData[s]+"\r\n")
+        settingsFile.close()
     
 def loadStudentData(course,name):
     studentFile = open(dataPath+"%s\\%s.txt" % (course.name,name))
@@ -132,32 +132,38 @@ def loadStudentData(course,name):
                 tempData[k]=value.rstrip()
     studentFile.close()
     newStudent = Student.Student(tempData['firstName'],tempData['lastName'],course,tempData['assignments'])
+    newStudent.submitPath = submitPath="C:\\Users\\ncarlson\\Google Drive\\IT3\\"+course.name+"\\"+newStudent.lastName+","+newStudent.firstName+"\\"
     newStudent.gradedPath = "C:\\Users\\ncarlson\\Google Drive\\IT3\\Graded\\"+course.name+"\\"+tempData['lastName']+","+tempData['firstName']+"\\"
+    print newStudent.gradedPath
     #print newStudent.lastName
     #for a in newStudent.assignments:
         #print a.number
     return newStudent
-     
-courseNames = settings['courses'].split(",")
-for c in courseNames:
-    newCourse = Course.Course(c)
-    courseFile = open(dataPath+"%s.txt" % c)
-    cLines = courseFile.readlines()
-    for l in cLines:
-        if "=" in l:
-            (k,value) = l.split("=")
-            if k=="student":
-                newStudent = loadStudentData(newCourse,value.rstrip())
-                newCourse.students.append(newStudent)
-            elif k=="notesWeight":
-                newCourse.notesWeight=value.rstrip()
-            elif k=="projectWeight":
-                newCourse.projectWeight=value.rstrip()
-            else:
-                pass
-                 
-    courseFile.close()
-    courses.append(newCourse)
+
+def loadCourses():     
+    courseNames = settings['courses'].split(",")
+    for c in courseNames:
+        newCourse = Course.Course(c)
+        courseFile = open(dataPath+"%s.txt" % c)
+        cLines = courseFile.readlines()
+        for l in cLines:
+            if "=" in l:
+                (k,value) = l.split("=")
+                if k=="student":
+                    newStudent = loadStudentData(newCourse,value.rstrip())
+                    newCourse.students.append(newStudent)
+                elif k=="notesWeight":
+                    newCourse.notesWeight=value.rstrip()
+                elif k=="projectWeight":
+                    newCourse.projectWeight=value.rstrip()
+                else:
+                    pass
+                     
+        courseFile.close()
+        courses.append(newCourse)
+
+loadSettings()
+loadCourses()
 
 try:
     #courses = pickle.load(open("C:\\Users\\ncarlson\\Google Drive\\IT3\\courses.p"))

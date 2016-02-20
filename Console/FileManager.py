@@ -12,6 +12,8 @@ import PDFManager
 def getPDFFiles(path):
     files = []
     for dirpath,dirnames, filenames in os.walk(path):
+        for f in filenames:
+            print os.path.join(dirpath,f)
         for filename in [f for f in filenames if f.endswith(".pdf")]:
             files.append(os.path.join(dirpath,filename))
     return files
