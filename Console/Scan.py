@@ -84,10 +84,43 @@ def run(data, param):
                         files.remove(f)
                 if (len(files)>0):
                     PDFManager.merge(files, destPath+"packet%d.pdf"%i)
+        
+        courses = data['courses']
+        for c in courses:
+            for s in c.students:
+                counter=0
+                for a in s.assignments:
+                    if a.score=="00":
+                        counter+=1
+                        print("Double zero found: %s for %s %s" % (a.number,s.firstName,s.lastName))
+                        input=raw_input("Should I change to 100?")
+                        if input=="y" or input=="yes":
+                            a.score="100"
+                            print("Score changed.")
+        
+        
+        
         return returnText
                     
     
     layer2['files'] = scanFiles
+    
+    def scanZeros(data,param):
+        courses = data['courses']
+        for c in courses:
+            for s in c.students:
+                counter=0
+                for a in s.assignments:
+                    if a.score=="00":
+                        counter+=1
+                        print("Double zero found: %s for %s %s" % (a.number,s.firstName,s.lastName))
+                        input=raw_input("Should I change to 100?")
+                        if input=="y" or input=="yes":
+                            a.score="100"
+                            print("Score changed.")
+        returnText = ""        
+        return returnText    
+    layer2['zeros'] = scanZeros
     
     words = param.split(' ',1)
     if words[0] in layer2.keys():

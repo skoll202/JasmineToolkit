@@ -36,11 +36,12 @@ def run(data, param):
             returnText=""
             currentCourse = data['currentCourse']
             for s in currentCourse.students:
-                returnText+="%s %s:\r\n" % (s.firstName,s.lastName)
+                returnText+="%s %s: " % (s.firstName,s.lastName)
                 for i in range(1,16):
                     if s.isPacketSubmitted(i):
-                        returnText+="%d\r\n" % i
+                        returnText+="%d " % i
                 returnText+="\r\n"
+                
             return returnText
         layer3['packets'] = printSubmittedPackets
         

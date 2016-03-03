@@ -12,8 +12,6 @@ import PDFManager
 def getPDFFiles(path):
     files = []
     for dirpath,dirnames, filenames in os.walk(path):
-        for f in filenames:
-            print os.path.join(dirpath,f)
         for filename in [f for f in filenames if f.endswith(".pdf")]:
             files.append(os.path.join(dirpath,filename))
     return files
@@ -37,17 +35,22 @@ def sortFiles(students,course):
         count = 0
         files = getPDFFiles(s.submitPath)
         print("%d files found for %s %s" % (len(files),s.firstName,s.lastName))
+        
         for f in files:
+            print("%s" % f)
             fileText = PDFManager.getStr(f)
             if PDFManager.isControlledPDF(text=fileText):
-                
+                print("File is controlled...")
                 count+=1
-                assignmentNumber = PDFManager.getAssignmentNumber(text=fileText)                
+                assignmentNumber = PDFManager.getAssignmentNumber(text=fileText)
+                print(assignmentNumber)                
                 filename = "%s-%s,%s.pdf" % (assignmentNumber,s.lastName,s.firstName)
+                print(filename)
                 try:
                     creditNumber = course.assignments[assignmentNumber]
                 except:
                     creditNumber = -1
+                print("%d" % int(creditNumber))
                 if "Notes" in assignmentNumber:
                     print("Notes found for %s %s for Credit %s" % (s.firstName, s.lastName, creditNumber))
                 try:
